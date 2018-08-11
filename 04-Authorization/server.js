@@ -10,6 +10,8 @@ if (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_AUDIENCE) {
   throw 'Make sure you have AUTH0_DOMAIN, and AUTH0_AUDIENCE in your .env file'
 }
 
+console.log(process.env.AUTH0_AUDIENCE);
+
 app.use(cors());
 
 const checkJwt = jwt({
@@ -27,19 +29,19 @@ const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
-const checkScopes = jwtAuthz([ 'read:messages' ]);
-const checkScopesAdmin = jwtAuthz([ 'write:messages' ]);
+const checkScopes = jwtAuthz([ 'all:courses' ]);
+const checkScopesAdmin = jwtAuthz([ 'create:courses' ]);
 
 app.get('/api/public', function(req, res) {
   res.json({ message: "Hello from a public endpoint! You don't need to be authenticated to see this." });
 });
 
 app.get('/api/private', checkJwt, checkScopes, function(req, res) {
-  res.json({ message: "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this." });
+  res.json({ message: "Hello from a private endpoint! You need to be authenticated and have a scope of all:courses to see this." });
 });
 
 app.post('/api/admin', checkJwt, checkScopesAdmin, function(req, res) {
-  res.json({ message: "Hello from an admin endpoint! You need to be authenticated and have a scope of write:messages to see this." });
+  res.json({ message: "Hello from an admin endpoint! You need to be authenticated and have a scope of create:courses to see this." });
 });
 
 app.listen(3001);

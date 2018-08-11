@@ -67,7 +67,7 @@ class App extends Component {
                 )
             }
             {
-              isAuthenticated() &&  userHasScopes(['write:messages']) && (
+              isAuthenticated() &&  userHasScopes(['create:courses']) && (
                   <Button
                     bsStyle="primary"
                     className="btn-margin"

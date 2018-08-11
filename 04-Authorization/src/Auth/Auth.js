@@ -4,7 +4,7 @@ import history from '../history';
 
 export default class Auth {
   userProfile;
-  requestedScopes = 'openid profile read:messages write:messages';
+  requestedScopes = 'openid profile';
 
   auth0 = new auth0.WebAuth({
     domain: AUTH_CONFIG.domain,
@@ -52,7 +52,8 @@ export default class Auth {
     // use the scopes as requested. If no scopes were requested,
     // set it to nothing
     const scopes = authResult.scope || this.requestedScopes || '';
-
+    console.log(authResult);
+    
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
